@@ -143,7 +143,7 @@ La obtención de datos se abstrae en capas de servicio:
 1.  **Clonar el repositorio**
     ```bash
     git clone https://github.com/Oliver-92/Recipes_App.git
-    cd recetas-app
+    cd Recipes_App
     ```
 
 2.  **Instalar dependencias**
