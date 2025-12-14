@@ -4,6 +4,7 @@ import { Spinner } from '../components/atoms/Spinner';
 import { ProtectedRoute } from './ProtectedRoute';
 import { Layout } from '../components/templates/Layout';
 import { useAuth } from '../hooks/useAuth';
+import { ROUTES } from '../constants';
 
 // Lazy load page components for better performance
 const Home = lazy(() => import('../pages/Home'));
@@ -38,19 +39,19 @@ export const AppRouter = () => {
         <Routes>
           {/* Public Routes */}
           <Route
-            path='/'
+            path={ROUTES.HOME}
             element={
               <Layout user={user} onLogout={logout}>
                 <Home />
               </Layout>
             }
           />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
+          <Route path={ROUTES.LOGIN} element={<Login />} />
+          <Route path={ROUTES.REGISTER} element={<Register />} />
 
           {/* Protected Routes */}
           <Route
-            path='/profile'
+            path={ROUTES.PROFILE}
             element={
               <ProtectedRoute
                 isAuthenticated={isAuthenticated}

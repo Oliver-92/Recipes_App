@@ -1,4 +1,5 @@
 import { Navbar } from '../organisms/Navbar';
+import { APP_NAME } from '../../constants';
 
 /**
  * Base Layout Component
@@ -27,7 +28,7 @@ export const Layout = ({ children, user, onLogout }) => {
       <footer className='bg-gray-900 w-full text-white py-6 mt-auto'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
           <p className='text-gray-400 sm:text-sm text-xs'>
-            © 2025 Recipes App. Powered by TheMealDB API.
+            © 2025 {APP_NAME}. Powered by TheMealDB API.
           </p>
           <p className="text-gray-400 mt-2 sm:text-sm text-xs">
             Developed by <a

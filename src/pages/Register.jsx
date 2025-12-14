@@ -5,6 +5,7 @@ import { Input } from '../components/atoms/Input';
 import { Button } from '../components/atoms/Button';
 import { Spinner } from '../components/atoms/Spinner';
 import { GiHotMeal } from "react-icons/gi";
+import { ROUTES, LIMITS, APP_NAME } from '../constants';
 
 /**
  * Registration Page
@@ -28,8 +29,8 @@ export default function Register() {
 
     if (!password) {
       newErrors.password = 'La contraseña es requerida';
-    } else if (password.length < 6) {
-      newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
+    } else if (password.length < LIMITS.MIN_PASSWORD_LENGTH) {
+      newErrors.password = `La contraseña debe tener al menos ${LIMITS.MIN_PASSWORD_LENGTH} caracteres`;
     }
 
     if (password !== confirmPassword) {
@@ -47,7 +48,7 @@ export default function Register() {
 
     try {
       await register(email, password);
-      navigate('/');
+      navigate(ROUTES.HOME);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -58,8 +59,8 @@ export default function Register() {
       <div className='w-full max-w-md bg-white rounded-lg shadow-lg p-8'>
         {/* Header */}
         <div className='text-center mb-8'>
-          <Link to='/' className='text-3xl font-bold text-gray-900 mb-2'>
-            <span className='flex flex-row justify-center gap-1.5 text-primary mb-2'><GiHotMeal /> Recipes App</span>
+          <Link to={ROUTES.HOME} className='text-3xl font-bold text-gray-900 mb-2'>
+            <span className='flex flex-row justify-center gap-1.5 text-primary mb-2'><GiHotMeal /> {APP_NAME}</span>
           </Link>
           <p className='text-gray-600'>Crea tu cuenta</p>
         </div>
@@ -122,7 +123,7 @@ export default function Register() {
         <p className='text-center text-gray-600 text-sm mt-6'>
           ¿Ya tienes cuenta?{' '}
           <Link
-            to='/login'
+            to={ROUTES.LOGIN}
             className='text-blue-600 hover:text-blue-700 font-medium'
           >
             Inicia sesión aquí

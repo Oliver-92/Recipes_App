@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../atoms/Button';
 import { BiHomeAlt } from "react-icons/bi";
 import { FaUserAlt } from "react-icons/fa";
+import { ROUTES, APP_NAME } from '../../constants';
 
 /**
  * Navbar principal
@@ -12,7 +13,7 @@ export const Navbar = ({ user, onLogout }) => {
   const handleLogout = async () => {
     try {
       await onLogout();
-      navigate('/');
+      navigate(ROUTES.HOME);
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
     }
@@ -24,11 +25,11 @@ export const Navbar = ({ user, onLogout }) => {
         <div className='flex justify-between items-center h-16'>
           {/* Logo */}
           <Link
-            to='/'
+            to={ROUTES.HOME}
             className='flex items-center gap-2 text-xl font-bold text-primary hover:text-primary/70 transition-colors'
           >
             <span><BiHomeAlt /></span>
-            <span>Recipes App</span>
+            <span>{APP_NAME}</span>
           </Link>
 
           {/* Menu */}
@@ -36,7 +37,7 @@ export const Navbar = ({ user, onLogout }) => {
             {user ? (
               <>
                 <Link
-                  to='/profile'
+                  to={ROUTES.PROFILE}
                   className='text-gray-700 hover:text-primary/70 font-medium transition-colors'
                 >
                   <span className='flex flex-row gap-1.5 text-primary items-center sm:text-base text-xs'><FaUserAlt /> My Profile</span>
@@ -51,12 +52,12 @@ export const Navbar = ({ user, onLogout }) => {
               </>
             ) : (
               <>
-                <Link to='/login'>
+                <Link to={ROUTES.LOGIN}>
                   <Button variant='ghost' size='sm'>
                     Login
                   </Button>
                 </Link>
-                <Link to='/register'>
+                <Link to={ROUTES.REGISTER}>
                   <Button variant='primary' size='sm'>
                     Register
                   </Button>

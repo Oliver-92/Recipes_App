@@ -70,3 +70,28 @@ export const FOCUSABLE_ELEMENTS_SELECTOR =
 
 // Timeouts
 export const FOCUS_TIMEOUT = 100;
+
+// Application Info
+export const APP_NAME = 'Recipes App';
+
+// Routes
+export const ROUTES = {
+    HOME: '/',
+    LOGIN: '/login',
+    REGISTER: '/register',
+    PROFILE: '/profile',
+};
+
+// Messages
+export const MESSAGES = {
+    AUTH_REQUIRED: 'You must be logged in to perform this action',
+    ADDED_TO_FAVORITES: 'Added to favorites',
+    REMOVED_FROM_FAVORITES: 'Removed from favorites',
+    ERROR_LOADING: 'Error loading data',
+};
+
+// Limits
+export const LIMITS = {
+    MIN_PASSWORD_LENGTH: 6,
+    MAX_RECIPE_NAME_LENGTH: 100,
+};

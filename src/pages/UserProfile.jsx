@@ -1,5 +1,7 @@
+import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../store/userStore';
 import { useAuth } from '../hooks/useAuth';
+import { ROUTES } from '../constants';
 import { useFavorites } from '../hooks/useFavorites';
 import { useRecipeModal } from '../hooks/useRecipeModal';
 import { Modal } from '../components/ui/Modal';
@@ -16,6 +18,7 @@ import { TfiReload } from 'react-icons/tfi';
 export default function UserProfile() {
   const { user, isLoadingUser } = useUserStore();
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const { favorites, refreshFavorites, isProcessing } = useFavorites();
   const {
     isModalOpen,
@@ -83,7 +86,7 @@ export default function UserProfile() {
             </p>
             <Button
               variant='primary'
-              onClick={() => (window.location.href = '/')}
+              onClick={() => navigate(ROUTES.HOME)}
             >
               Explore Recipes
             </Button>

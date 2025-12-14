@@ -6,6 +6,7 @@ import {
     removeFavorite,
     getUserFavorites,
 } from '../services/favoriteService';
+import { MESSAGES } from '../constants';
 
 /**
  * Custom hook to manage favorite recipes
@@ -27,7 +28,7 @@ export const useFavorites = () => {
      */
     const toggleFavorite = async (recipe, isAuthenticated) => {
         if (!isAuthenticated) {
-            showNotification('You must log in to save favorites', 'error');
+            showNotification(MESSAGES.AUTH_REQUIRED, 'error');
             return false;
         }
 
@@ -46,13 +47,13 @@ export const useFavorites = () => {
                 await removeFavorite(favDoc.id);
                 const updated = favorites.filter((fav) => fav.idMeal !== recipe.idMeal);
                 setFavorites(updated);
-                showNotification('Removed from favorites', 'success');
+                showNotification(MESSAGES.REMOVED_FROM_FAVORITES, 'success');
             } else {
                 // Add to favorites
                 await addFavorite(user.uid, recipe);
                 const updated = await getUserFavorites(user.uid);
                 setFavorites(updated);
-                showNotification('Added to favorites', 'success');
+                showNotification(MESSAGES.ADDED_TO_FAVORITES, 'success');
             }
 
             return true;

@@ -1,4 +1,4 @@
-# 🍳 Recetas App - Explorador de Recetas Moderno
+# 🍳 Recipes App - Explorador de Recetas Moderno
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
@@ -9,6 +9,8 @@
 ## 📖 Introducción
 
 **Recetas App** es una aplicación web moderna y responsive diseñada para que los amantes de la comida exploren, descubran y organicen sus recetas favoritas. Resuelve el problema de tener recetas dispersas, proporcionando una plataforma centralizada para buscar comidas por categoría, por nombre y guardar favoritos personales.
+
+> 🚀 **Proyecto Final**: Esta aplicación fue desarrollada como proyecto final para el **Bootcamp de Desarrollo Frontend Moderno** de [Código Facilito](https://codigofacilito.com/).
 
 Construida con performance y accesibilidad como prioridad, la app ofrece una experiencia de usuario fluida en cualquier dispositivo.
 
