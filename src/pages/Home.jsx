@@ -91,7 +91,7 @@ export default function Home() {
     <div className='space-y-8'>
       {/* Header */}
       <div className='text-center m-6'>
-        <h1 className='text-6xl font-bold text-white mb-5 backdrop-blur-sm w-fit mx-auto'>
+        <h1 className='sm:text-6xl text-5xl font-bold text-white mb-5 backdrop-blur-sm w-fit mx-auto'>
           EXPLORE OUR RECIPES
         </h1>
         <p className='text-white text-xl font-semibold'>

@@ -1,14 +1,15 @@
 import { Button } from '../atoms/Button';
+import { DEFAULT_PAGE_SIZE, MAX_PAGINATION_BUTTONS } from '../../constants';
 
 /**
  * Simple Pagination component
  */
 export const Pagination = ({
   totalItems,
-  pageSize = 12,
+  pageSize = DEFAULT_PAGE_SIZE,
   currentPage = 1,
   onPageChange,
-  maxButtons = 5,
+  maxButtons = MAX_PAGINATION_BUTTONS,
 }) => {
   const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
 
@@ -65,7 +66,7 @@ export const Pagination = ({
       {pages[pages.length - 1] < totalPages && (
         <>
           {pages[pages.length - 1] < totalPages - 1 && (
-            <span className='text-white px-2'>...</span>
+            <span className='text-white px-1'>...</span>
           )}
           <Button
             size='sm'

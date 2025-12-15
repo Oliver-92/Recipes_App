@@ -48,18 +48,23 @@ export const RecipeSearch = ({ onResults, isLoading = false }) => {
 
   return (
     <form onSubmit={handleSearch} className='w-full flex items-center gap-2'>
-      <Input
-        type='text'
-        placeholder='Search recipe...'
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        disabled={isSearching || isLoading}
-        className='flex-1 font-semibold'
-      />
+      {/* Ensure the input can shrink on small screens */}
+      <div className='flex-1 min-w-0'>
+        <Input
+          type='text'
+          placeholder='Search recipe...'
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          disabled={isSearching || isLoading}
+          className='w-full font-semibold min-w-0'
+        />
+      </div>
+
       <Button
         type='submit'
         variant='primary'
         disabled={isSearching || isLoading}
+        className='shrink-0'
       >
         {isSearching ? <Spinner size='sm' /> :  <FaSearch />}
       </Button>
@@ -69,10 +74,11 @@ export const RecipeSearch = ({ onResults, isLoading = false }) => {
           variant='secondary'
           onClick={handleReset}
           disabled={isSearching || isLoading}
+          className='shrink-0'
         >
-          Clean
+          Clear
         </Button>
-      )}
+       )} 
     </form>
   );
 };

@@ -5,7 +5,7 @@
 
 // Pagination
 export const DEFAULT_PAGE_SIZE = 12;
-export const MAX_PAGINATION_BUTTONS = 5;
+export const MAX_PAGINATION_BUTTONS = 3;
 
 // API Configuration
 export const API_BASE_URL = 'https://www.themealdb.com/api/json/v1/1';
