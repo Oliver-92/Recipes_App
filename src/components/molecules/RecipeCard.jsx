@@ -15,7 +15,7 @@ const RecipeCard = ({
   return (
     <div className='bg-white/70 rounded-lg rounded-bl-4xl rounded-tr-4xl shadow-md hover:shadow-lg transition-shadow overflow-hidden sm:w-full w-10/12 mx-auto'>
       {/* Image */}
-      <div className='relative w-full overflow-hidden bg-gray-200'>
+      <div className='relative w-full h-48 overflow-hidden bg-gray-200'>
         <img
           src={recipe.strMealThumb}
           alt={recipe.strMeal}

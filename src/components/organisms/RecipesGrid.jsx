@@ -31,7 +31,7 @@ export const RecipesGrid = ({
   if (!recipes || recipes.length === 0) {
     return (
       <div className='text-center py-12'>
-        <p className='text-white font-bold text-3xl'>No recipes available</p>
+        <p className='text-black font-bold text-3xl'>No recipes available</p>
       </div>
     );
   }

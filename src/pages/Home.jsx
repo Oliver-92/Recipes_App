@@ -91,10 +91,10 @@ export default function Home() {
     <div className='space-y-8'>
       {/* Header */}
       <div className='text-center m-6'>
-        <h1 className='sm:text-6xl text-5xl font-bold text-white mb-5 backdrop-blur-sm w-fit mx-auto'>
-          EXPLORE OUR RECIPES
+        <h1 className='sm:text-6xl text-5xl font-bold text-gray-950 mb-5 backdrop-blur-sm w-fit mx-auto'>
+          EXPLORE OUR <span className='text-primary'>RECIPES</span>
         </h1>
-        <p className='text-white text-xl font-semibold'>
+        <p className='text-black text-xl font-semibold'>
           Discover thousands of delicious recipes from TheMealDB
         </p>
       </div>
@@ -107,7 +107,7 @@ export default function Home() {
       {/* Category Filters */}
       {!isSearchMode && (
         <section>
-          <h2 className='text-2xl font-bold text-white mb-4'>Categories</h2>
+          <h2 className='text-2xl font-bold text-gray-700 mb-4'>Categories</h2>
           <CategorySelect
             categories={categories}
             selectedCategory={selectedCategory}

@@ -14,12 +14,7 @@ html, body {
 
 body {
   font-family: 'Red Hat Text', sans-serif;
-  background-image: url('/pexels-daniela-elena-tentis-118658-691114.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
-  min-height: 100vh;
+  background-color: #f9f9f9;
 }
 
 /* Screen reader only - accessible but visually hidden */
