@@ -1,25 +1,25 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useRecipes } from '../hooks/useRecipes';
 import { useAuth } from '../hooks/useAuth';
 import { useFavorites } from '../hooks/useFavorites';
 import { useRecipeModal } from '../hooks/useRecipeModal';
 import { useRecipeSearch } from '../hooks/useRecipeSearch';
+import { useCategoryRecipes } from '../hooks/useCategoryRecipes';
+import { usePagination } from '../hooks/usePagination';
 import { CategorySelect } from '../components/molecules/CategorySelect';
 import { RecipeSearch } from '../components/molecules/RecipeSearch';
 import { RecipesGrid } from '../components/organisms/RecipesGrid';
 import { Pagination } from '../components/molecules/Pagination';
 import { Modal } from '../components/ui/Modal';
 import { RecipeDetail } from '../components/molecules/RecipeDetail';
-import { getMealsByCategory } from '../services/mealService';
 import { useRecipesStore } from '../store/recipesStore';
-import { useUiStore } from '../store/uiStore';
-import { DEFAULT_PAGE_SIZE } from '../constants';
 
 /**
  * Home Page - Recipe Explorer
+ * Purely declarative component - all data fetching logic is in hooks
  */
 export default function Home() {
-  // Hooks
+  // Data hooks
   const { categories, selectedCategory, isLoading, filterByCategory } = useRecipes();
   const { isAuthenticated } = useAuth();
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
@@ -37,45 +37,19 @@ export default function Home() {
     clearSearch
   } = useRecipeSearch();
 
-  // Local state
-  const { filteredRecipes, setFilteredRecipes } = useRecipesStore();
-  const { showNotification } = useUiStore();
-  const [isLoadingRecipes, setIsLoadingRecipes] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  // Store
+  const { filteredRecipes } = useRecipesStore();
 
-  // Reset page when filtered recipes change
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [filteredRecipes.length, isSearchMode, selectedCategory]);
+  // Category-based recipe loading (automatic)
+  const { isLoadingRecipes } = useCategoryRecipes(selectedCategory, clearSearch, isSearchMode);
 
-  // Load recipes when category is selected
-  useEffect(() => {
-    const loadRecipes = async () => {
-      if (!selectedCategory) {
-        if (!isSearchMode) {
-          setFilteredRecipes([]);
-        }
-        return;
-      }
+  // Pagination (automatic page reset)
+  const { currentPage, setCurrentPage, paginatedData, totalItems, pageSize } = usePagination(
+    filteredRecipes,
+    [isSearchMode, selectedCategory]
+  );
 
-      try {
-        setIsLoadingRecipes(true);
-        const recipes = await getMealsByCategory(selectedCategory);
-        setFilteredRecipes(recipes);
-        clearSearch();
-      } catch (error) {
-        console.error('Error loading recipes:', error);
-        showNotification('Error loading recipes', 'error');
-      } finally {
-        setIsLoadingRecipes(false);
-      }
-    };
-
-    loadRecipes();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCategory, setFilteredRecipes, showNotification]);
-
-  // Memoized event handlers to prevent unnecessary re-renders
+  // Event handlers
   const onSearchResults = useCallback((results) => {
     handleSearchResults(results);
     if (results && results.length > 0) {
@@ -125,10 +99,7 @@ export default function Home() {
           </h2>
         )}
         <RecipesGrid
-          recipes={filteredRecipes.slice(
-            (currentPage - 1) * DEFAULT_PAGE_SIZE,
-            currentPage * DEFAULT_PAGE_SIZE
-          )}
+          recipes={paginatedData}
           isLoading={isLoadingRecipes}
           onViewDetails={viewRecipeDetails}
           onFavorite={handleFavoriteClick}
@@ -138,8 +109,8 @@ export default function Home() {
 
         {/* Pagination */}
         <Pagination
-          totalItems={filteredRecipes.length}
-          pageSize={DEFAULT_PAGE_SIZE}
+          totalItems={totalItems}
+          pageSize={pageSize}
           currentPage={currentPage}
           onPageChange={setCurrentPage}
         />

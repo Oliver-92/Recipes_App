@@ -16,9 +16,25 @@ import { COLLECTIONS } from '../constants';
 
 /**
  * Add recipe to favorites
+ * Checks if the favorite already exists before adding
  */
 export const addFavorite = async (userId, recipe) => {
   try {
+    // Check if favorite already exists
+    const q = query(
+      collection(db, COLLECTIONS.FAVORITES),
+      where('userId', '==', userId),
+      where('idMeal', '==', recipe.idMeal)
+    );
+    const querySnapshot = await getDocs(q);
+
+    // If favorite already exists, return existing document ID
+    if (!querySnapshot.empty) {
+      console.log('Favorite already exists for this user');
+      return querySnapshot.docs[0].id;
+    }
+
+    // Add new favorite if it doesn't exist
     const docRef = await addDoc(collection(db, COLLECTIONS.FAVORITES), {
       userId,
       idMeal: recipe.idMeal,

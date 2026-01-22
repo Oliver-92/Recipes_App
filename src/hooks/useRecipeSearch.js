@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useRecipesStore } from '../store/recipesStore';
 import { searchMealsByName } from '../services/mealService';
 import { useUiStore } from '../store/uiStore';
@@ -16,7 +16,7 @@ export const useRecipeSearch = () => {
     /**
      * Handle search results
      */
-    const handleSearchResults = (results) => {
+    const handleSearchResults = useCallback((results) => {
         setSearchResults(results);
         setFilteredRecipes(results || []);
 
@@ -25,21 +25,21 @@ export const useRecipeSearch = () => {
         } else {
             setIsSearchMode(false);
         }
-    };
+    }, [setFilteredRecipes]);
 
     /**
      * Clear search and reset to category view
      */
-    const clearSearch = () => {
+    const clearSearch = useCallback(() => {
         setSearchResults([]);
         setIsSearchMode(false);
         // Don't clear filteredRecipes here - let the category loading handle it
-    };
+    }, []);
 
     /**
      * Perform search by name
      */
-    const searchRecipes = async (searchTerm) => {
+    const searchRecipes = useCallback(async (searchTerm) => {
         if (!searchTerm.trim()) {
             showNotification('Enter a search term', 'warning');
             return;
@@ -62,7 +62,7 @@ export const useRecipeSearch = () => {
         } finally {
             setIsSearching(false);
         }
-    };
+    }, [showNotification, handleSearchResults]);
 
     return {
         searchResults,
