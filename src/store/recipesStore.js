@@ -6,6 +6,7 @@ import { create } from 'zustand';
  * - Filtered recipes
  * - Selected category
  * - Loading states for different operations
+ * - Error states for different operations
  */
 export const useRecipesStore = create((set) => ({
   categories: [],
@@ -18,6 +19,13 @@ export const useRecipesStore = create((set) => ({
     categories: false,
     recipes: false,
     detail: false,
+  },
+
+  // Centralized error states
+  errors: {
+    categories: null,
+    recipes: null,
+    detail: null,
   },
 
   // Actions
@@ -38,6 +46,26 @@ export const useRecipesStore = create((set) => ({
       loadingStates: { ...state.loadingStates, categories: loading },
     })),
 
+  // Error state management
+  setError: (key, error) =>
+    set((state) => ({
+      errors: { ...state.errors, [key]: error },
+    })),
+
+  clearError: (key) =>
+    set((state) => ({
+      errors: { ...state.errors, [key]: null },
+    })),
+
+  clearAllErrors: () =>
+    set({
+      errors: {
+        categories: null,
+        recipes: null,
+        detail: null,
+      },
+    }),
+
   // Computed getter for any loading state
   get isLoading() {
     return this.loadingStates.categories || this.loadingStates.recipes || this.loadingStates.detail;
@@ -46,3 +74,4 @@ export const useRecipesStore = create((set) => ({
   // Reset
   resetFilters: () => set({ selectedCategory: null, filteredRecipes: [] }),
 }));
+

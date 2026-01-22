@@ -6,6 +6,8 @@ import { Button } from '../components/atoms/Button';
 import { Spinner } from '../components/atoms/Spinner';
 import { GiHotMeal } from "react-icons/gi";
 import { ROUTES, LIMITS, APP_NAME } from '../constants';
+import { isValidEmail, isValidPassword } from '../utils/helpers';
+import { formatError } from '../utils/errorHandler';
 
 /**
  * Registration Page
@@ -23,13 +25,13 @@ export default function Register() {
 
     if (!email) {
       newErrors.email = 'El email es requerido';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
+    } else if (!isValidEmail(email)) {
       newErrors.email = 'El email no es válido';
     }
 
     if (!password) {
       newErrors.password = 'La contraseña es requerida';
-    } else if (password.length < LIMITS.MIN_PASSWORD_LENGTH) {
+    } else if (!isValidPassword(password, LIMITS.MIN_PASSWORD_LENGTH)) {
       newErrors.password = `La contraseña debe tener al menos ${LIMITS.MIN_PASSWORD_LENGTH} caracteres`;
     }
 
@@ -50,7 +52,7 @@ export default function Register() {
       await register(email, password);
       navigate(ROUTES.HOME);
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Register error:', formatError(error));
     }
   };
 

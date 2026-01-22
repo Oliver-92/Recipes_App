@@ -13,6 +13,7 @@ import { Pagination } from '../components/molecules/Pagination';
 import { Modal } from '../components/ui/Modal';
 import { RecipeDetail } from '../components/molecules/RecipeDetail';
 import { useRecipesStore } from '../store/recipesStore';
+import { DEFAULT_CATEGORY } from '../constants';
 
 /**
  * Home Page - Recipe Explorer
@@ -51,9 +52,16 @@ export default function Home() {
 
   // Event handlers
   const onSearchResults = useCallback((results) => {
-    handleSearchResults(results);
-    if (results && results.length > 0) {
-      filterByCategory(null);
+    if (results === null) {
+      // Clear search action
+      handleSearchResults([]);
+      filterByCategory(DEFAULT_CATEGORY);
+    } else {
+      // Search performed
+      handleSearchResults(results);
+      if (results && results.length > 0) {
+        filterByCategory(null);
+      }
     }
   }, [handleSearchResults, filterByCategory]);
 

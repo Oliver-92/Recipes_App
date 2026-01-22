@@ -7,6 +7,8 @@ import { Spinner } from '../components/atoms/Spinner';
 import { FaGoogle } from "react-icons/fa";
 import { GiHotMeal } from "react-icons/gi";
 import { ROUTES, LIMITS, APP_NAME } from '../constants';
+import { isValidEmail, isValidPassword } from '../utils/helpers';
+import { formatError } from '../utils/errorHandler';
 
 /**
  * Login Page
@@ -23,13 +25,13 @@ export default function Login() {
 
     if (!email) {
       newErrors.email = 'El email es requerido';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
+    } else if (!isValidEmail(email)) {
       newErrors.email = 'El email no es válido';
     }
 
     if (!password) {
       newErrors.password = 'La contraseña es requerida';
-    } else if (password.length < LIMITS.MIN_PASSWORD_LENGTH) {
+    } else if (!isValidPassword(password, LIMITS.MIN_PASSWORD_LENGTH)) {
       newErrors.password = `La contraseña debe tener al menos ${LIMITS.MIN_PASSWORD_LENGTH} caracteres`;
     }
 
@@ -46,7 +48,7 @@ export default function Login() {
       await login(email, password);
       navigate(ROUTES.HOME);
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Login error:', formatError(error));
     }
   };
 
@@ -55,7 +57,7 @@ export default function Login() {
       await loginWithGoogle();
       navigate(ROUTES.HOME);
     } catch (err) {
-      console.error('Google sign-in error:', err);
+      console.error('Google sign-in error:', formatError(err));
     }
   };
 

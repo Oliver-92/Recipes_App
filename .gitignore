@@ -25,11 +25,11 @@ dist-ssr
 
 # Environment files
 .env
-# Agent.md
-# COMPLETADO.md
-# CONFIGURACION.md
-# DEVELOPMENT.md
-# EJEMPLOS.md
-# SETUP.md
-# TESTING.md
-# FULL_DOCUMENTATION.md
+Agent.md
+COMPLETADO.md
+CONFIGURACION.md
+DEVELOPMENT.md
+EJEMPLOS.md
+SETUP.md
+TESTING.md
+FULL_DOCUMENTATION.md

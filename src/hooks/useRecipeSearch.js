@@ -2,9 +2,11 @@ import { useState, useCallback } from 'react';
 import { useRecipesStore } from '../store/recipesStore';
 import { searchMealsByName } from '../services/mealService';
 import { useUiStore } from '../store/uiStore';
+import { formatError } from '../utils/errorHandler';
 
 /**
  * Custom hook to manage recipe search functionality
+ * Includes debounced search support
  */
 export const useRecipeSearch = () => {
     const { setFilteredRecipes } = useRecipesStore();
@@ -38,6 +40,7 @@ export const useRecipeSearch = () => {
 
     /**
      * Perform search by name
+     * Centralized search logic used by both manual and debounced search
      */
     const searchRecipes = useCallback(async (searchTerm) => {
         if (!searchTerm.trim()) {
@@ -56,9 +59,12 @@ export const useRecipeSearch = () => {
             }
 
             handleSearchResults(results);
+            return results;
         } catch (error) {
-            console.error('Error searching:', error);
+            const errorMessage = formatError(error);
+            console.error('Error searching:', errorMessage);
             showNotification('Search error', 'error');
+            return [];
         } finally {
             setIsSearching(false);
         }
@@ -73,3 +79,4 @@ export const useRecipeSearch = () => {
         searchRecipes,
     };
 };
+

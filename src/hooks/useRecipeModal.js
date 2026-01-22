@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useUiStore } from '../store/uiStore';
 import { getMealDetail } from '../services/mealService';
+import { formatError } from '../utils/errorHandler';
 
 /**
  * Custom hook to manage recipe modal and detail loading
@@ -21,7 +22,7 @@ export const useRecipeModal = () => {
             setRecipeDetail(detail);
             openModal(recipe);
         } catch (error) {
-            console.error('Error loading recipe details:', error);
+            console.error('Error loading recipe details:', formatError(error));
             showNotification('Error loading details', 'error');
         } finally {
             setIsLoadingDetail(false);

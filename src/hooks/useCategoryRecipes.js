@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useRecipesStore } from '../store/recipesStore';
-import { useUiStore } from '../store/uiStore';
 import { getMealsByCategory } from '../services/mealService';
+import { formatError } from '../utils/errorHandler';
 
 /**
  * Custom hook to manage category-based recipe loading
  * Automatically loads recipes when selectedCategory changes
- * Handles loading states, errors, and clears search results
+ * Uses centralized error state from Zustand
  */
 export const useCategoryRecipes = (selectedCategory, clearSearch, isSearchMode) => {
-    const { setFilteredRecipes } = useRecipesStore();
-    const { showNotification } = useUiStore();
+    const { setFilteredRecipes, setError, clearError } = useRecipesStore();
     const [isLoadingRecipes, setIsLoadingRecipes] = useState(false);
 
     useEffect(() => {
@@ -24,19 +23,21 @@ export const useCategoryRecipes = (selectedCategory, clearSearch, isSearchMode) 
 
             try {
                 setIsLoadingRecipes(true);
+                clearError('recipes');
                 const recipes = await getMealsByCategory(selectedCategory);
                 setFilteredRecipes(recipes);
                 clearSearch();
             } catch (error) {
+                const errorMessage = formatError(error);
+                setError('recipes', errorMessage);
                 console.error('Error loading recipes:', error);
-                showNotification('Error loading recipes', 'error');
             } finally {
                 setIsLoadingRecipes(false);
             }
         };
 
         loadRecipes();
-    }, [selectedCategory, setFilteredRecipes, showNotification, clearSearch, isSearchMode]);
+    }, [selectedCategory, setFilteredRecipes, clearSearch, isSearchMode, setError, clearError]);
 
     return { isLoadingRecipes };
 };

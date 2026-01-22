@@ -3,6 +3,7 @@ import { Button } from '../atoms/Button';
 import { BiHomeAlt } from "react-icons/bi";
 import { FaUserAlt } from "react-icons/fa";
 import { ROUTES, APP_NAME } from '../../constants';
+import { formatError } from '../../utils/errorHandler';
 
 /**
  * Navbar principal
@@ -15,7 +16,7 @@ export const Navbar = ({ user, onLogout }) => {
       await onLogout();
       navigate(ROUTES.HOME);
     } catch (error) {
-      console.error('Error al cerrar sesión:', error);
+      console.error('Logout error:', formatError(error));
     }
   };
 

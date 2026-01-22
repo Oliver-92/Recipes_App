@@ -7,6 +7,7 @@ import {
     getUserFavorites,
 } from '../services/favoriteService';
 import { MESSAGES } from '../constants';
+import { formatError } from '../utils/errorHandler';
 
 /**
  * Custom hook to manage favorite recipes
@@ -58,7 +59,7 @@ export const useFavorites = () => {
 
             return true;
         } catch (error) {
-            console.error('Error toggling favorite:', error);
+            console.error('Error toggling favorite:', formatError(error));
             showNotification('Error saving favorite', 'error');
             return false;
         } finally {
@@ -78,7 +79,7 @@ export const useFavorites = () => {
             setFavorites(updated);
             showNotification('Favorites updated', 'success');
         } catch (error) {
-            console.error('Error refreshing favorites:', error);
+            console.error('Error refreshing favorites:', formatError(error));
             showNotification('Error updating favorites', 'error');
         } finally {
             setIsProcessing(false);

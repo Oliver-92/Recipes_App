@@ -7,15 +7,24 @@ import {
   onAuthChange,
 } from '../services/authService';
 import { getUserFavorites } from '../services/favoriteService';
+import { formatError } from '../utils/errorHandler';
 
 /**
  * Custom hook to handle authentication
+ * Uses centralized error state from Zustand
  */
 export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const { user, setUser, setFavorites, setIsLoadingUser, resetUser } =
-    useUserStore();
+  const {
+    user,
+    authError,
+    setUser,
+    setFavorites,
+    setIsLoadingUser,
+    setAuthError,
+    clearAuthError,
+    resetUser
+  } = useUserStore();
 
   // Listen for authentication changes
   useEffect(() => {
@@ -34,8 +43,9 @@ export const useAuth = () => {
           resetUser();
         }
       } catch (err) {
+        const errorMessage = formatError(err);
+        setAuthError(errorMessage);
         console.error('Error loading favorites:', err);
-        setError(err.message);
       } finally {
         setIsLoadingUser(false);
         setIsLoading(false);
@@ -43,19 +53,18 @@ export const useAuth = () => {
     });
 
     return () => unsubscribe();
-  }, [setUser, setFavorites, resetUser, setIsLoadingUser]);
+  }, [setUser, setFavorites, resetUser, setIsLoadingUser, setAuthError]);
 
   // Authentication functions
   const register = async (email, password) => {
     try {
       setIsLoading(true);
-      setError(null);
+      clearAuthError();
       const user = await registerUser(email, password);
       return user;
     } catch (err) {
-      const { formatFirebaseError } = await import('../utils/helpers');
-      const errorMessage = formatFirebaseError(err.code);
-      setError(errorMessage);
+      const errorMessage = formatError(err);
+      setAuthError(errorMessage);
       throw err;
     } finally {
       setIsLoading(false);
@@ -65,13 +74,12 @@ export const useAuth = () => {
   const login = async (email, password) => {
     try {
       setIsLoading(true);
-      setError(null);
+      clearAuthError();
       const user = await loginUser(email, password);
       return user;
     } catch (err) {
-      const { formatFirebaseError } = await import('../utils/helpers');
-      const errorMessage = formatFirebaseError(err.code);
-      setError(errorMessage);
+      const errorMessage = formatError(err);
+      setAuthError(errorMessage);
       throw err;
     } finally {
       setIsLoading(false);
@@ -82,14 +90,13 @@ export const useAuth = () => {
   const loginWithGoogle = async () => {
     try {
       setIsLoading(true);
-      setError(null);
+      clearAuthError();
       const { loginWithGoogle: googleLogin } = await import('../services/authService');
       const user = await googleLogin();
       return user;
     } catch (err) {
-      const { formatFirebaseError } = await import('../utils/helpers');
-      const errorMessage = formatFirebaseError(err.code);
-      setError(errorMessage);
+      const errorMessage = formatError(err);
+      setAuthError(errorMessage);
       throw err;
     } finally {
       setIsLoading(false);
@@ -101,7 +108,8 @@ export const useAuth = () => {
       setIsLoading(true);
       await logoutUser();
     } catch (err) {
-      setError(err.message);
+      const errorMessage = formatError(err);
+      setAuthError(errorMessage);
       throw err;
     } finally {
       setIsLoading(false);
@@ -111,7 +119,7 @@ export const useAuth = () => {
   return {
     user,
     isLoading,
-    error,
+    error: authError,
     register,
     login,
     loginWithGoogle,
