@@ -15,7 +15,8 @@ const RecipeCard = ({
   return (
     <div className='bg-white/70 rounded-lg rounded-bl-4xl rounded-tr-4xl shadow-md hover:shadow-lg transition-shadow overflow-hidden sm:w-full w-10/12 mx-auto'>
       {/* Image */}
-      <div className='relative w-full h-48 overflow-hidden bg-gray-200'>
+      <div className='relative w-full h-48 overflow-hidden bg-gray-200 cursor-pointer'
+        onClick={() => onViewDetails(recipe)}>
         <img
           src={recipe.strMealThumb}
           alt={recipe.strMeal}
@@ -24,10 +25,13 @@ const RecipeCard = ({
         />
         {showFavoriteBtn && (
           <button
-            onClick={() => onFavorite(recipe)}
-            className={`absolute top-3 right-3 p-2 rounded-full backdrop-blur-sm transition-all ${isFavorite
-                ? 'bg-red-500 text-white'
-                : 'bg-white/70 text-gray-700 hover:bg-white'
+            onClick={(e) => {
+              e.stopPropagation();
+              onFavorite(recipe);
+            }}
+            className={`absolute top-3 right-3 p-2 rounded-full cursor-pointer backdrop-blur-sm transition-all ${isFavorite
+              ? 'bg-red-500 text-white'
+              : 'bg-white/70 text-gray-700 hover:bg-white'
               }`}
             aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
           >

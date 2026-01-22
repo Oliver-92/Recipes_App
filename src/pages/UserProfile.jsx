@@ -143,7 +143,8 @@ function FavoriteCard({ favorite, onViewDetails, onRemove }) {
   return (
     <div className='bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden'>
       {/* Image */}
-      <div className='relative w-full h-48 overflow-hidden bg-gray-200'>
+      <div className='relative w-full h-48 overflow-hidden bg-gray-200 cursor-pointer'
+      onClick={() => onViewDetails(favorite)}>
         <img
           src={favorite.strMealThumb}
           alt={favorite.strMeal}
@@ -154,7 +155,7 @@ function FavoriteCard({ favorite, onViewDetails, onRemove }) {
 
       {/* Content */}
       <div className='p-4 flex flex-col gap-3'>
-        <h3 className='font-bold text-lg text-gray-900 line-clamp-2'>
+        <h3 className='font-bold text-lg text-gray-900 line-clamp-2 truncate'>
           {favorite.strMeal}
         </h3>
 

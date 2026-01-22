@@ -14,7 +14,7 @@ const Button = ({
   ...props
 }) => {
   const baseStyles =
-    'font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2';
+    'font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer';
 
   const variants = {
     primary:
